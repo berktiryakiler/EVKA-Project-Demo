@@ -1,0 +1,68 @@
+PROGRAM EvkaDeneme PROG_ARM = 1
+  
+CONST
+  ki_dv_tcp_accept = 29
+  ki_dv_tcp_connect = 30
+  ki_dv_tcp_disconnect = 31
+  
+  
+VAR pnt0006J, pnt0007J, pnt0008J : JOINTPOS FOR ARM[1]
+  pnt0001J, pnt0002J, pnt0003J, pnt0004J, pnt0005J : JOINTPOS FOR ARM[1]
+  vi_netlun, vi_rem_port : INTEGER
+  
+  vs_ans : STRING[140]
+  vs_ans_x : INTEGER
+  vs_ans_y : INTEGER
+  vs_ans_z : INTEGER
+  vs_rem_host : STRING[100]
+  i : INTEGER
+  
+VAR pos1_var : POSITION
+VAR pos2_var : POSITION
+  
+  
+  
+  
+  
+VAR JHome : JOINTPOS
+  
+BEGIN
+  
+  i := 0
+  vi_rem_port := 4200
+  vs_rem_host := '192.168.0.102'
+  
+  
+  -- Open socket
+  OPEN FILE vi_netlun ('NETT:', 'rw')
+  DV_CNTRL(ki_dv_tcp_connect, (vi_netlun), (vs_rem_host), (vi_rem_port))
+  IF $DV_STS = 0 THEN
+    
+    WRITE LUN_CRT ('[Client] Connect to : ', vs_rem_host, NL)
+    
+    --user gir
+    --WRITE vi_netlun ('admin\013\010')
+
+while true do
+
+    READ vi_netlun (vs_ans_x,vs_ans_y,vs_ans_z)   -- STUCK! We should receive  PASSWORD: 
+    WRITE LUN_CRT ('Cevap : ', vs_ans_x, NL)
+    WRITE LUN_CRT ('Cevap : ', vs_ans_y, NL)
+    WRITE LUN_CRT ('Cevap : ', vs_ans_z, NL)
+    
+pos1_var := POS(vs_ans_x, vs_ans_y, vs_ans_z, 0, 180, -98)
+MOVE LINEAR TO pos1_var
+
+--WRITE vi_netlun ('0\013\010')
+WRITE vi_netlun ('0')
+
+endwhile
+
+    
+    
+    
+  ENDIF
+  
+END EvkaDeneme
+
+

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/assets">
+        <file>sp.png</file>
+        <file>tcpip.png</file>
+        <file>go.png</file>
+        <file>path.png</file>
+    </qresource>
+</RCC>
